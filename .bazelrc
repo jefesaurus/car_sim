@@ -1,0 +1,37 @@
+# Location of compilers and tools
+build --crosstool_top=//tools:CROSSTOOL
+
+# Disable sandbox for build and test
+build --spawn_strategy=standalone
+build --genrule_strategy=standalone
+test --test_strategy=standalone
+
+# Global compiler flags.
+build --copt=-Wall
+build --copt=-Wno-unused-function
+build --copt=-Wno-overloaded-virtual
+build --copt=-Wno-strict-overflow
+build --copt=-Wno-sign-compare
+build --copt=-mavx
+build --copt=-march=native
+
+# glog's LOG_EVERY_N is broken without this.
+build --copt=-Wno-unused-local-typedefs
+
+# enable verbose warnings if we hit timeout.
+test --test_verbose_timeout_warnings
+
+# Never strip symbols from test builds
+test --strip never
+
+# Display output of erroring tests by default.
+test --test_output=errors
+
+# Never strip debug information when available.
+build --strip never
+
+# Build all targets statically.
+build --dynamic_mode off
+
+# Build in "opt" mode by default.
+build --compilation_mode opt
